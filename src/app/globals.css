@@ -1,0 +1,225 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-destructive: var(--destructive);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-income: var(--income);
+  --color-income-foreground: var(--income-foreground);
+  --color-income-soft: var(--income-soft);
+
+  --color-expense: var(--expense);
+  --color-expense-foreground: var(--expense-foreground);
+  --color-expense-soft: var(--expense-soft);
+
+  --color-gold: var(--gold);
+  --color-gold-foreground: var(--gold-foreground);
+  --color-gold-soft: var(--gold-soft);
+
+  --color-brand: var(--primary);
+  --color-brand-soft: var(--brand-soft);
+
+  --font-display: "Fraunces", ui-serif, Georgia, serif;
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+/* =========================================================
+   LIGHT THEME
+========================================================= */
+
+:root {
+  --radius: 0.9rem;
+
+  --background: #eef0ee;
+  --foreground: #1a1d1b;
+
+  --card: #ffffff;
+  --card-foreground: #1a1d1b;
+
+  --popover: #ffffff;
+  --popover-foreground: #1a1d1b;
+
+  --primary: #16794f;
+  --primary-foreground: #ffffff;
+
+  --secondary: #e7f3ec;
+  --secondary-foreground: #16794f;
+
+  --muted: #f2f3f1;
+  --muted-foreground: #6b716b;
+
+  --accent: #e7f3ec;
+  --accent-foreground: #16794f;
+
+  --destructive: #d64545;
+
+  --border: #e3e5e2;
+  --input: #e3e5e2;
+  --ring: #16794f;
+
+  /* Income */
+  --income: #16794f;
+  --income-foreground: #ffffff;
+  --income-soft: #e3f3ea;
+
+  /* Expense */
+  --expense: #e2574c;
+  --expense-foreground: #ffffff;
+  --expense-soft: #fbeae8;
+
+  /* Gold / Saving */
+  --gold: #d6a419;
+  --gold-foreground: #ffffff;
+  --gold-soft: #fbf1dc;
+
+  /* Brand */
+  --brand-soft: #e7f3ec;
+}
+
+/* =========================================================
+   DARK THEME
+========================================================= */
+
+.dark {
+  --background: #14171a;
+  --foreground: #eff1ee;
+
+  --card: #1c201d;
+  --card-foreground: #eff1ee;
+
+  --popover: #1c201d;
+  --popover-foreground: #eff1ee;
+
+  --primary: #35b37e;
+  --primary-foreground: #0a1310;
+
+  --secondary: #1e2a22;
+  --secondary-foreground: #7fd3aa;
+
+  --muted: #20241f;
+  --muted-foreground: #9ba39d;
+
+  --accent: #1e2a22;
+  --accent-foreground: #7fd3aa;
+
+  --destructive: #e27060;
+
+  --border: rgba(239, 241, 238, 0.1);
+  --input: rgba(239, 241, 238, 0.14);
+  --ring: #35b37e;
+
+  /* Income */
+  --income: #35b37e;
+  --income-foreground: #0a1310;
+  --income-soft: rgba(53, 179, 126, 0.16);
+
+  /* Expense */
+  --expense: #e27060;
+  --expense-foreground: #200d08;
+  --expense-soft: rgba(226, 112, 96, 0.16);
+
+  /* Gold / Saving */
+  --gold: #e3b94a;
+  --gold-foreground: #201804;
+  --gold-soft: rgba(227, 185, 74, 0.16);
+
+  /* Brand */
+  --brand-soft: rgba(53, 179, 126, 0.14);
+}
+
+/* =========================================================
+   BASE
+========================================================= */
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    background: var(--background);
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+
+    margin: 0;
+    min-height: 100vh;
+
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+  }
+}
+
+/* =========================================================
+   CUSTOM UTILITIES
+========================================================= */
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display);
+  }
+
+  .tabular-nums-mono {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .torn-edge {
+    height: 8px;
+
+    background-image: radial-gradient(
+      circle at 8px 0,
+      transparent 7px,
+      var(--card) 7.5px
+    );
+
+    background-size: 16px 16px;
+    background-position: 0 -5px;
+  }
+
+  .dashed-b {
+    border-bottom: 1px dashed var(--border);
+  }
+}
