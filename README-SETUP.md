@@ -40,7 +40,7 @@ Copy folder `src/` di sini ke project Next.js kamu (merge, JANGAN full replace):
 
 File `.env.local` di sini sudah diisi API kamu:
 ```
-NEXT_PUBLIC_API_URL=https://moneytrackerapi-production-c176.up.railway.app/api
+NEXT_PUBLIC_API_URL=https://money-tracker-api-tau.vercel.app/api
 ```
 Copy ke root project kamu (sejajar dengan `package.json`).
 
@@ -74,7 +74,7 @@ Buka `http://localhost:3000` → otomatis redirect ke `/login` →
 klik "Daftar" buat coba register → habis itu login → kalau berhasil,
 otomatis masuk ke `/dashboard` dan nampilin card "✅ Berhasil masuk ke Dashboard".
 
-Kalau ada error CORS di console browser, itu artinya backend Go kamu di Railway
+Kalau ada error CORS di console browser, itu artinya backend kamu di Vercel
 belum allow origin `http://localhost:3000`. Perlu di-fix di sisi backend.
 
 ## 7. Kalau sudah CORS-nya beres tapi tetap gagal
