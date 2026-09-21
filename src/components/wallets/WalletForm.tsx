@@ -86,17 +86,19 @@ export default function WalletForm({
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="space-y-5 text-zinc-100"
+      className="space-y-5"
     >
       {/* HEADER INFO BANNER */}
-      <div className="flex items-start gap-3.5 p-4 rounded-2xl bg-[#14231d] border border-[#1b3d2f]">
-        <div className="p-2.5 rounded-xl bg-[#1d4735] text-[#00e599] shrink-0">
+      <div className="flex items-start gap-3.5 p-4 rounded-2xl bg-primary/[0.06] border border-primary/15">
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
           <WalletIcon className="h-5 w-5" />
         </div>
         <div className="space-y-0.5">
-          <h4 className="text-sm font-semibold text-white">Tambah Wallet</h4>
-          <p className="text-xs text-zinc-400 leading-relaxed">
-            Tambahkan wallet untuk menyimpan saldo kamu.
+          <h4 className="text-sm font-semibold text-foreground">
+            {submitLabel.includes("Simpan") ? "Edit Wallet" : "Tambah Wallet"}
+          </h4>
+          <p className="text-xs text-muted-foreground leading-relaxed">
+            Tambahkan wallet untuk menyimpan saldo dan mencatat transaksi kamu.
           </p>
         </div>
       </div>
@@ -105,9 +107,9 @@ export default function WalletForm({
       <div className="space-y-2">
         <Label
           htmlFor="wallet-name"
-          className="flex items-center gap-2 text-sm font-semibold text-zinc-200"
+          className="flex items-center gap-2 text-sm font-medium text-foreground"
         >
-          <WalletIcon className="h-4 w-4 text-zinc-400" />
+          <WalletIcon className="h-4 w-4 text-muted-foreground" />
           Nama Wallet
         </Label>
 
@@ -117,11 +119,11 @@ export default function WalletForm({
           autoComplete="off"
           disabled={isSubmitting}
           {...register("name")}
-          className="h-12 bg-[#202422] border-emerald-600 focus-visible:ring-1 focus-visible:ring-emerald-500 rounded-xl text-white placeholder:text-zinc-500 text-sm"
+          className="h-11 bg-background border-border focus-visible:ring-2 focus-visible:ring-primary/20 rounded-xl text-foreground placeholder:text-muted-foreground text-sm"
         />
 
         {errors.name && (
-          <p className="text-xs text-destructive">
+          <p className="text-xs font-medium text-destructive">
             {errors.name.message}
           </p>
         )}
@@ -129,8 +131,8 @@ export default function WalletForm({
 
       {/* JENIS WALLET */}
       <div className="space-y-2">
-        <Label className="flex items-center gap-2 text-sm font-semibold text-zinc-200">
-          <CircleDollarSign className="h-4 w-4 text-zinc-400" />
+        <Label className="flex items-center gap-2 text-sm font-medium text-foreground">
+          <CircleDollarSign className="h-4 w-4 text-muted-foreground" />
           Jenis Wallet
         </Label>
 
@@ -149,12 +151,12 @@ export default function WalletForm({
           }}
         >
           <SelectTrigger
-            className="h-14 bg-[#202422] border-transparent focus:border-emerald-600 focus:ring-1 focus:ring-emerald-500 rounded-xl text-white text-sm"
+            className="h-12 bg-background border-border focus:ring-2 focus:ring-primary/20 rounded-xl text-foreground text-sm"
           >
             <SelectValue placeholder="Pilih jenis wallet" />
           </SelectTrigger>
 
-          <SelectContent className="rounded-xl bg-[#1a1d1b] border-zinc-800 text-white">
+          <SelectContent className="rounded-xl border-border bg-popover text-popover-foreground">
             {walletTypes.map((wallet) => {
               const Icon = wallet.icon;
 
@@ -162,18 +164,18 @@ export default function WalletForm({
                 <SelectItem
                   key={wallet.value}
                   value={wallet.value}
-                  className="rounded-lg py-2.5 focus:bg-emerald-950/40 focus:text-white"
+                  className="rounded-lg py-2.5 cursor-pointer focus:bg-accent focus:text-accent-foreground"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-zinc-700 bg-zinc-800/80 text-zinc-300">
+                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-border bg-muted text-muted-foreground">
                       <Icon className="h-4 w-4" />
                     </div>
 
                     <div className="flex flex-col text-left">
-                      <span className="text-sm font-medium">
+                      <span className="text-sm font-medium text-foreground">
                         {wallet.label}
                       </span>
-                      <span className="text-xs text-zinc-400">
+                      <span className="text-xs text-muted-foreground">
                         {wallet.description}
                       </span>
                     </div>
@@ -185,26 +187,26 @@ export default function WalletForm({
         </Select>
 
         {errors.type && (
-          <p className="text-xs text-destructive">
+          <p className="text-xs font-medium text-destructive">
             {errors.type.message}
           </p>
         )}
       </div>
 
-      {/* SALDO AWAL (RATA KIRI) */}
+      {/* SALDO AWAL */}
       <div className="space-y-2">
         <Label
           htmlFor="wallet-balance"
-          className="flex items-center gap-2 text-sm font-semibold text-zinc-200"
+          className="flex items-center gap-2 text-sm font-medium text-foreground"
         >
-          <span className="text-xs font-bold text-zinc-400 leading-none">
+          <span className="text-xs font-bold text-muted-foreground leading-none">
             Rp
           </span>
           Saldo Awal
         </Label>
 
         <div className="relative flex items-center">
-          <span className="absolute left-4 text-sm font-medium text-zinc-400 pointer-events-none">
+          <span className="absolute left-4 text-sm font-medium text-muted-foreground pointer-events-none">
             Rp
           </span>
 
@@ -229,16 +231,16 @@ export default function WalletForm({
                   formatCurrencyInput(event.target.value);
               },
             })}
-            className="pl-11 pr-4 h-12 bg-[#202422] border-transparent focus-visible:border-emerald-600 focus-visible:ring-1 focus-visible:ring-emerald-500 rounded-xl text-white text-left font-bold text-base tabular-nums"
+            className="pl-11 pr-4 h-11 bg-background border-border focus-visible:ring-2 focus-visible:ring-primary/20 rounded-xl text-foreground text-left font-bold text-base tabular-nums"
           />
         </div>
 
         {errors.balance ? (
-          <p className="text-xs text-destructive">
+          <p className="text-xs font-medium text-destructive">
             {errors.balance.message}
           </p>
         ) : (
-          <p className="text-xs text-zinc-400">
+          <p className="text-xs text-muted-foreground">
             Saldo yang tersedia saat wallet dibuat.
           </p>
         )}
@@ -248,7 +250,7 @@ export default function WalletForm({
       <Button
         type="submit"
         disabled={isSubmitting}
-        className="w-full h-12 mt-4 bg-[#00c978] hover:bg-[#00b36a] text-black font-semibold rounded-2xl text-sm transition-colors"
+        className="w-full h-11 mt-2 font-semibold rounded-xl text-sm shadow-sm transition-all"
       >
         {isSubmitting ? (
           <span className="flex items-center justify-center gap-2">
