@@ -22,6 +22,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
+import axios from "axios";
 import { register as registerUser } from "@/services/authService";
 
 export default function RegisterPage() {
@@ -61,23 +62,28 @@ export default function RegisterPage() {
     } catch (error: unknown) {
       console.error("Register error:", error);
 
-      const response = (
-        error as {
-          response?: {
-            data?: {
-              message?: string;
-              error?: string;
-            };
-          };
+      if (axios.isAxiosError(error)) {
+        if (!error.response) {
+          toast.error(
+            "Tidak dapat terhubung ke server backend (Network/CORS Error). Pastikan server backend sedang aktif."
+          );
+        } else {
+          const resData = error.response.data as { message?: string; error?: string };
+          const message =
+            resData?.message ||
+            resData?.error ||
+            (error.response.status === 409
+              ? "Email sudah terdaftar."
+              : error.response.status === 404
+              ? "Endpoint registrasi tidak ditemukan (404)."
+              : "Registrasi gagal.");
+          toast.error(message);
         }
-      )?.response?.data;
-
-      const message =
-        response?.message ??
-        response?.error ??
-        "Registrasi gagal.";
-
-      toast.error(message);
+      } else if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("Terjadi kesalahan saat registrasi.");
+      }
     } finally {
       setIsLoading(false);
     }

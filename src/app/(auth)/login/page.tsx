@@ -21,6 +21,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
+import axios from "axios";
 import { setToken } from "@/lib/auth";
 import { login } from "@/services/authService";
 
@@ -56,21 +57,28 @@ export default function LoginPage() {
     } catch (error: unknown) {
       console.error("Login error:", error);
 
-      const response = (
-        error as {
-          response?: {
-            data?: {
-              message?: string;
-              error?: string;
-            };
-          };
+      if (axios.isAxiosError(error)) {
+        if (!error.response) {
+          toast.error(
+            "Tidak dapat terhubung ke server backend (Network/CORS Error). Pastikan server backend sedang aktif."
+          );
+        } else {
+          const resData = error.response.data as { message?: string; error?: string };
+          const message =
+            resData?.message ||
+            resData?.error ||
+            (error.response.status === 401
+              ? "Email atau password salah."
+              : error.response.status === 404
+              ? "Endpoint login tidak ditemukan (404)."
+              : "Terjadi kesalahan pada server.");
+          toast.error(message);
         }
-      )?.response?.data;
-
-      const message =
-        response?.message ?? response?.error ?? "Email atau password salah.";
-
-      toast.error(message);
+      } else if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("Terjadi kesalahan saat login.");
+      }
     } finally {
       setIsLoading(false);
     }
